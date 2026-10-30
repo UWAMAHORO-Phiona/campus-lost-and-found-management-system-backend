@@ -1,4 +1,3 @@
-
 package campus_lost_and_found_management_system.repository;
 
 import campus_lost_and_found_management_system.entity.ItemReport;
@@ -10,6 +9,18 @@ import java.util.UUID;
 import java.time.LocalDate;
 
 public interface ItemReportRepository extends JpaRepository<ItemReport, UUID> {
+
+    // B2
     List<ItemReport> findByStatusOrderByReportDateAsc(ItemReportStatus status);
-    List<ItemReport> findByReportDateBetweenOrderByReportDateAsc(LocalDate startDate, LocalDate endDate);
+
+    // B3
+    List<ItemReport> findByReportDateBetweenOrderByReportDateAsc(
+            LocalDate startDate, LocalDate endDate);
+
+    // D1
+    boolean existsByCustodian_IdAndReportDateAndStatusNot(
+            UUID custodianId,
+            LocalDate reportDate,
+            ItemReportStatus status
+    );
 }

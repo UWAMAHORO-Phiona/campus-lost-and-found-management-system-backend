@@ -1,4 +1,3 @@
-
 package campus_lost_and_found_management_system.controller;
 
 import campus_lost_and_found_management_system.entity.Custodian;
@@ -24,10 +23,7 @@ public class CustodianController {
     @PostMapping("/save")
     public ResponseEntity<String> save(@RequestBody Custodian custodian) {
         custodianService.save(custodian);
-        return new ResponseEntity<>(
-                "Custodian saved successfully",
-                HttpStatus.CREATED
-        );
+        return new ResponseEntity<>("Custodian saved successfully", HttpStatus.CREATED);
     }
 
     @GetMapping("/all")
@@ -81,13 +77,51 @@ public class CustodianController {
             return ResponseEntity.ok(message);
         }
     }
+
+    // D3: Add item category to custodian
+    @PutMapping("/{custodianId}/item-categories/{itemCategoryId}")
+    public ResponseEntity<String> addItemCategory(
+            @PathVariable UUID custodianId,
+            @PathVariable UUID itemCategoryId) {
+
+        String message = custodianService.addItemCategory(custodianId, itemCategoryId);
+
+        if (message.equals("The custodian with that id does not exist")
+                || message.equals("That item category does not exist")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+
+        } else if (message.equals("The custodian already has that item category")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
+
+        } else {
+            return ResponseEntity.ok(message);
+        }
+    }
+
+    // D4: Change the post assigned to a custodian
+    @PatchMapping("/{custodianId}/post")
+    public ResponseEntity<String> changePost(
+            @PathVariable UUID custodianId,
+            @RequestParam int postNumber) {
+
+        String message = custodianService.changePost(custodianId, postNumber);
+
+        if (message.equals("The custodian with that id does not exist")
+                || message.equals("The post with that postNumber does not exist")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+
+        } else if (message.equals("That post is taken by another custodian")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
+
+        } else {
+            return ResponseEntity.ok(message);
+        }
+    }
+
     @GetMapping("/by-category")
     public ResponseEntity<List<Custodian>> findByCategory(
             @RequestParam String categoryName) {
 
-        return ResponseEntity.ok(
-                custodianService.findByCategory(categoryName)
-        );
-            
-    }}
-
+        return ResponseEntity.ok(custodianService.findByCategory(categoryName));
+    }
+}
