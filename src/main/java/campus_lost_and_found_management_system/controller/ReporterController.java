@@ -82,4 +82,13 @@ public class ReporterController {
             return ResponseEntity.ok(message);
         }
     }
-}
+    @GetMapping("/by-last-name")
+    public ResponseEntity<List<Reporter>> findByLastName(
+        @RequestParam String lastName) {
+
+            return ResponseEntity.ok(
+                reporterService.findByLastName(lastName)
+            );
+    
+        }
+    }

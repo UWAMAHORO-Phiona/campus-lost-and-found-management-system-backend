@@ -3,6 +3,7 @@ package campus_lost_and_found_management_system.controller;
 
 import campus_lost_and_found_management_system.entity.ItemReport;
 import campus_lost_and_found_management_system.service.ItemReportService;
+import campus_lost_and_found_management_system.entity.ItemReportStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/item-reports")
@@ -82,5 +84,25 @@ public class ItemReportController {
         } else {
             return ResponseEntity.ok(message);
         }
+    }
+    @GetMapping ("/by-status")
+    public ResponseEntity<List<ItemReport>> findByStatus(
+            @RequestParam ItemReportStatus status) {
+
+        return ResponseEntity.ok(
+                itemReportService.findByStatus(status)
+        );
+    }
+    @GetMapping("/between")
+    public ResponseEntity<List<ItemReport>> findByDateBetween(
+            @RequestParam String start,
+            @RequestParam String end) {
+
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+
+        return ResponseEntity.ok(
+                itemReportService.findByDateBetween(startDate, endDate)
+        );
     }
 }

@@ -37,4 +37,7 @@ public class ReporterService {
         }
         return "The reporter with that id does not exist";
     }
+    public List<Reporter> findByLastName(String lastName) {
+        return reporterRepository.findByLastNameIgnoreCaseOrderByFirstNameAsc(lastName);
+    }
 }
