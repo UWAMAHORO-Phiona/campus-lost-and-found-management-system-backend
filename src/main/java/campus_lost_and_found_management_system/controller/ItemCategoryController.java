@@ -76,4 +76,8 @@ public class ItemCategoryController {
             return ResponseEntity.ok(message);
         }
     }
+    @GetMapping("/unused")
+    public ResponseEntity<List<ItemCategory>> findUnusedCategories() {
+        return ResponseEntity.ok(itemCategoryService.findUnusedCategories());
+    }
 }

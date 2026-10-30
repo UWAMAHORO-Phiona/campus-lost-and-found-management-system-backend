@@ -37,4 +37,7 @@ public class PostService {
         }
         return "The post with that id does not exist";
     }
+    public List<Post> findFreePosts() {
+        return postRepository.findFreePosts();
+    }
 }

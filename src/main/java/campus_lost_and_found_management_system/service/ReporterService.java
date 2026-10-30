@@ -40,4 +40,7 @@ public class ReporterService {
     public List<Reporter> findByLastName(String lastName) {
         return reporterRepository.findByLastNameIgnoreCaseOrderByFirstNameAsc(lastName);
     }
+    public List<Reporter> findReportersByCustodian(UUID custodianId) {
+    return reporterRepository.findReportersByCustodian(custodianId);
+}
 }

@@ -37,4 +37,7 @@ public class CustodianService {
         }
         return "The custodian with that id does not exist";
     }
+    public List<Custodian> findByCategory(String categoryName) {
+        return custodianRepository.findCustodiansByCategory(categoryName);
+    }
 }

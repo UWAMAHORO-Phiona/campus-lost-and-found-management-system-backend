@@ -77,4 +77,8 @@ public class PostController {
             return ResponseEntity.ok(message);
         }
     }
+    @GetMapping("/free")
+    public ResponseEntity<List<Post>> findFreePosts(){
+        return ResponseEntity.ok(postService.findFreePosts());
+    }
 }

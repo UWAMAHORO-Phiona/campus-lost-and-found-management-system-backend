@@ -81,4 +81,13 @@ public class CustodianController {
             return ResponseEntity.ok(message);
         }
     }
-}
+    @GetMapping("/by-category")
+    public ResponseEntity<List<Custodian>> findByCategory(
+            @RequestParam String categoryName) {
+
+        return ResponseEntity.ok(
+                custodianService.findByCategory(categoryName)
+        );
+            
+    }}
+

@@ -91,4 +91,12 @@ public class ReporterController {
             );
     
         }
+        @GetMapping("/by-custodian/{custodianId}")
+public ResponseEntity<List<Reporter>> findReportersByCustodian(
+        @PathVariable UUID custodianId) {
+
+    return ResponseEntity.ok(
+            reporterService.findReportersByCustodian(custodianId)
+    );
+}
     }

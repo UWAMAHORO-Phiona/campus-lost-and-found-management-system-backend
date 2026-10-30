@@ -37,4 +37,7 @@ public class ItemCategoryService {
         }
         return "The item category with that id does not exist";
     }
+    public List<ItemCategory> findUnusedCategories() {
+        return itemCategoryRepository.findUnusedCategories();
+    }
 }
