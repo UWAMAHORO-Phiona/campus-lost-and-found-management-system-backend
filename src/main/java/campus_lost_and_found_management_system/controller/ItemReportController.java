@@ -99,4 +99,22 @@ public class ItemReportController {
         return ResponseEntity.ok(
                 itemReportService.findByDateBetween(start, end));
     }
+      // F1: Get the number of item reports grouped by status
+    @GetMapping("/stats/by-status")
+    public ResponseEntity<List<Object[]>> countItemReportsByStatus() {
+        return ResponseEntity.ok(
+                itemReportService.countItemReportsByStatus());
+    }
+
+    // F2: Cancel reports for a custodian on a specific date
+    @PatchMapping("/cancel-day")
+    public ResponseEntity<String> cancelReportsForCustodianOnDate(
+            @RequestParam UUID custodianId,
+            @RequestParam LocalDate date) {
+
+        String message = itemReportService.cancelReportsForCustodianOnDate(
+                custodianId, date);
+
+        return ResponseEntity.ok(message);
+    }
 }

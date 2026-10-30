@@ -5,6 +5,7 @@ import campus_lost_and_found_management_system.entity.ItemReport;
 import campus_lost_and_found_management_system.entity.ItemReportStatus;
 import campus_lost_and_found_management_system.repository.ItemReportRepository;
 import campus_lost_and_found_management_system.repository.ReturnReceiptRepository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -114,5 +115,22 @@ public class ItemReportService {
         itemReportRepository.save(report);
 
         return "Item report status updated successfully";
+    }
+        // F1: Count item reports by status
+    public List<Object[]> countItemReportsByStatus() {
+        return itemReportRepository.countItemReportsByStatus();
+    }
+        // F2: Cancel reports for a custodian on a specific date
+    @Transactional
+    public String cancelReportsForCustodianOnDate(UUID custodianId, LocalDate date) {
+
+        int count = itemReportRepository.cancelReportsForCustodianOnDate(
+                custodianId,
+                date,
+                ItemReportStatus.WITHDRAWN,
+                ItemReportStatus.RETURNED
+        );
+
+        return count + " item reports cancelled";
     }
 }
