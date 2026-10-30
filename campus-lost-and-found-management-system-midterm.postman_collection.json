@@ -1,0 +1,276 @@
+{
+  "info": {
+    "_postman_id": "8d7a6a9d-ff2c-4a91-9b3d-271250000001",
+    "name": "Campus Lost and Found Management System - Midterm",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "AUCA Web Technology midterm API requests. Set baseUrl to http://localhost:8080 and replace placeholder IDs/campusId with values from your database before sending."
+  },
+  "item": [
+    {
+      "name": "A2",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/item-reports/save",
+        "description": "Create an item report (A2 CRUD example)",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"reportDate\": \"2026-11-01\",\n  \"status\": \"OPEN\",\n  \"itemName\": \"Test item\",\n  \"location\": \"Library\",\n  \"reporter\": {\n    \"id\": \"{{reporterId}}\"\n  },\n  \"custodian\": {\n    \"id\": \"{{custodianId}}\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "B1",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/reporters/by-last-name?lastName=umutoni",
+        "description": "Find reporters by last name"
+      },
+      "response": []
+    },
+    {
+      "name": "B2",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/item-reports/by-status?status=OPEN",
+        "description": "Find item reports by status"
+      },
+      "response": []
+    },
+    {
+      "name": "B3",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/item-reports/between?start=2026-10-01&end=2026-10-31",
+        "description": "Find item reports between dates"
+      },
+      "response": []
+    },
+    {
+      "name": "C1",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/custodians/by-item-category?name=elec",
+        "description": "Find custodians by item category"
+      },
+      "response": []
+    },
+    {
+      "name": "C2",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/posts/free",
+        "description": "Find free posts"
+      },
+      "response": []
+    },
+    {
+      "name": "C3",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/item-categories/unused",
+        "description": "Find unused item categories"
+      },
+      "response": []
+    },
+    {
+      "name": "C4",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/reporters/of-custodian/{{custodianId}}",
+        "description": "Find reporters of a custodian"
+      },
+      "response": []
+    },
+    {
+      "name": "D1",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/item-reports/save",
+        "description": "Test safe item report saving (past-date failure example)",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"reportDate\": \"2026-10-01\",\n  \"status\": \"MATCHED\",\n  \"itemName\": \"Past date test\",\n  \"location\": \"Library\",\n  \"reporter\": {\n    \"id\": \"{{reporterId}}\"\n  },\n  \"custodian\": {\n    \"id\": \"{{custodianId}}\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "D2",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": "{{baseUrl}}/api/item-reports/{{itemReportId}}/status?status=MATCHED",
+        "description": "Change item report status"
+      },
+      "response": []
+    },
+    {
+      "name": "D3",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": "{{baseUrl}}/api/custodians/{{custodianId}}/item-categories/{{itemCategoryId}}",
+        "description": "Add item category to custodian"
+      },
+      "response": []
+    },
+    {
+      "name": "D4",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": "{{baseUrl}}/api/custodians/{{custodianId}}/post?postNumber=4",
+        "description": "Move custodian to another post"
+      },
+      "response": []
+    },
+    {
+      "name": "E1",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/return-receipts/save?itemReportId={{returnedItemReportId}}",
+        "description": "Create return receipt",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"proofType\": \"Student card\",\n  \"remarks\": \"Owner described the item correctly\",\n  \"itemCount\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "E2",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/return-receipts/reporter/{{campusId}}",
+        "description": "Get return receipt history by reporter"
+      },
+      "response": []
+    },
+    {
+      "name": "E3",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/return-receipts/delete/{{returnReceiptId}}",
+        "description": "Delete return receipt"
+      },
+      "response": []
+    },
+    {
+      "name": "F1",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/item-reports/stats/by-status",
+        "description": "Get item report counts by status"
+      },
+      "response": []
+    },
+    {
+      "name": "F2",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": "{{baseUrl}}/api/item-reports/cancel-day?custodianId={{custodianId}}&date=2026-10-20",
+        "description": "Cancel custodian reports for a date"
+      },
+      "response": []
+    },
+    {
+      "name": "+5 Dashboard",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/dashboard/summary",
+        "description": "Get dashboard summary (bonus)"
+      },
+      "response": []
+    },
+    {
+      "name": "+5 Pagination",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/item-reports/page?page=0&size=5&sort=reportDate,desc",
+        "description": "Get paginated item reports (bonus)"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "reporterId",
+      "value": "REPLACE_WITH_REPORTER_UUID"
+    },
+    {
+      "key": "custodianId",
+      "value": "REPLACE_WITH_CUSTODIAN_UUID"
+    },
+    {
+      "key": "itemCategoryId",
+      "value": "REPLACE_WITH_ITEM_CATEGORY_UUID"
+    },
+    {
+      "key": "itemReportId",
+      "value": "REPLACE_WITH_ITEM_REPORT_UUID"
+    },
+    {
+      "key": "returnedItemReportId",
+      "value": "REPLACE_WITH_RETURNED_ITEM_REPORT_UUID"
+    },
+    {
+      "key": "returnReceiptId",
+      "value": "REPLACE_WITH_RETURN_RECEIPT_UUID"
+    },
+    {
+      "key": "campusId",
+      "value": "24-0456"
+    }
+  ]
+}
