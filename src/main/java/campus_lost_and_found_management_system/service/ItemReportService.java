@@ -1,8 +1,10 @@
+
 package campus_lost_and_found_management_system.service;
 
 import campus_lost_and_found_management_system.entity.ItemReport;
 import campus_lost_and_found_management_system.entity.ItemReportStatus;
 import campus_lost_and_found_management_system.repository.ItemReportRepository;
+import campus_lost_and_found_management_system.repository.ReturnReceiptRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,12 +16,15 @@ import java.time.LocalDate;
 public class ItemReportService {
 
     private final ItemReportRepository itemReportRepository;
+    private final ReturnReceiptRepository returnReceiptRepository;
 
-    public ItemReportService(ItemReportRepository itemReportRepository) {
+    public ItemReportService(ItemReportRepository itemReportRepository,
+                             ReturnReceiptRepository returnReceiptRepository) {
         this.itemReportRepository = itemReportRepository;
+        this.returnReceiptRepository = returnReceiptRepository;
     }
 
-    // D1: Safe saving
+    // D1: Save an item report safely
     public String save(ItemReport itemReport) {
 
         if (itemReport.getReportDate().isBefore(LocalDate.now())) {
@@ -48,56 +53,66 @@ public class ItemReportService {
         return itemReportRepository.findById(id);
     }
 
+    // Delete an item report only when it has no return receipts
     public String delete(UUID id) {
-        if (itemReportRepository.existsById(id)) {
-            itemReportRepository.deleteById(id);
-            return "Item report deleted successfully";
+
+        if (!itemReportRepository.existsById(id)) {
+            return "The item report with that id does not exist";
         }
-        return "The item report with that id does not exist";
+
+        if (returnReceiptRepository.existsByItemReport_Id(id)) {
+            return "That item report has return receipts, delete them first";
+        }
+
+        itemReportRepository.deleteById(id);
+        return "Item report deleted successfully";
     }
 
-    // B2
+    // B2: Find item reports by status
     public List<ItemReport> findByStatus(ItemReportStatus status) {
         return itemReportRepository.findByStatusOrderByReportDateAsc(status);
     }
 
-    // B3
+    // B3: Find item reports between two dates
     public List<ItemReport> findByDateBetween(
             LocalDate startDate, LocalDate endDate) {
 
         return itemReportRepository
                 .findByReportDateBetweenOrderByReportDateAsc(startDate, endDate);
     }
+
     public ItemReport update(ItemReport itemReport) {
-    return itemReportRepository.save(itemReport);
-}
-public String updateStatus(UUID id, ItemReportStatus newStatus) {
-
-    Optional<ItemReport> optionalReport = itemReportRepository.findById(id);
-
-    if (optionalReport.isEmpty()) {
-        return "The item report with that id does not exist";
+        return itemReportRepository.save(itemReport);
     }
 
-    ItemReport report = optionalReport.get();
-    ItemReportStatus currentStatus = report.getStatus();
+    // D2: Update item report status
+    public String updateStatus(UUID id, ItemReportStatus newStatus) {
 
-    boolean allowed =
-            (currentStatus == ItemReportStatus.OPEN &&
-                    (newStatus == ItemReportStatus.MATCHED ||
-                     newStatus == ItemReportStatus.WITHDRAWN))
-            ||
-            (currentStatus == ItemReportStatus.MATCHED &&
-                    (newStatus == ItemReportStatus.RETURNED ||
-                     newStatus == ItemReportStatus.WITHDRAWN));
+        Optional<ItemReport> optionalReport = itemReportRepository.findById(id);
 
-    if (!allowed) {
-        return "Cannot change status from " + currentStatus + " to " + newStatus;
+        if (optionalReport.isEmpty()) {
+            return "The item report with that id does not exist";
+        }
+
+        ItemReport report = optionalReport.get();
+        ItemReportStatus currentStatus = report.getStatus();
+
+        boolean allowed =
+                (currentStatus == ItemReportStatus.OPEN &&
+                        (newStatus == ItemReportStatus.MATCHED ||
+                         newStatus == ItemReportStatus.WITHDRAWN))
+                ||
+                (currentStatus == ItemReportStatus.MATCHED &&
+                        (newStatus == ItemReportStatus.RETURNED ||
+                         newStatus == ItemReportStatus.WITHDRAWN));
+
+        if (!allowed) {
+            return "Cannot change status from " + currentStatus + " to " + newStatus;
+        }
+
+        report.setStatus(newStatus);
+        itemReportRepository.save(report);
+
+        return "Item report status updated successfully";
     }
-
-    report.setStatus(newStatus);
-    itemReportRepository.save(report);
-
-    return "Item report status updated successfully";
-}
 }
