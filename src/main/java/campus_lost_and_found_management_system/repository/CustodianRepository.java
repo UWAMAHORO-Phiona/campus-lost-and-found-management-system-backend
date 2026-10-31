@@ -11,9 +11,12 @@ import java.util.UUID;
 public interface CustodianRepository extends JpaRepository<Custodian, UUID> {
 
     // C1: Find custodians by item category
-    @Query("SELECT c FROM Custodian c JOIN c.itemCategories ic WHERE LOWER(ic.name) = LOWER(:categoryName)")
+   @Query("SELECT c FROM Custodian c JOIN c.itemCategories ic WHERE LOWER(ic.name) LIKE LOWER(CONCAT('%', :categoryName, '%'))")
     List<Custodian> findCustodiansByCategory(@Param("categoryName") String categoryName);
 
     // D4: Check whether another custodian is assigned to the post
     boolean existsByPost_IdAndIdNot(UUID postId, UUID custodianId);
+
+
+    long countBy();
 }

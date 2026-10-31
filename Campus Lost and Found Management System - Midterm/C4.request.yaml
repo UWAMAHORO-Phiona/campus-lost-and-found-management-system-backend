@@ -1,0 +1,5 @@
+$kind: http-request
+description: Find reporters of a custodian
+url: "{{baseUrl}}/api/reporters/of-custodian/{{custodianId}}"
+method: GET
+order: 8000

@@ -14,4 +14,6 @@ public interface ReturnReceiptRepository extends JpaRepository<ReturnReceipt, UU
     List<ReturnReceipt> findByReporterCampusId(@Param("campusId") String campusId);
 
     boolean existsByItemReport_Id(UUID itemReportId);
+
+    long countBy();
 }

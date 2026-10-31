@@ -1,0 +1,17 @@
+$kind: http-request
+description: Create return receipt
+url: "{{baseUrl}}/api/return-receipts/save?itemReportId={{returnedItemReportId}}"
+method: POST
+headers:
+  Content-Type: application/json
+queryParams:
+  itemReportId: "{{returnedItemReportId}}"
+body:
+  type: json
+  content: |-
+    {
+      "proofType": "Student card",
+      "remarks": "Owner described the item correctly",
+      "itemCount": 1
+    }
+order: 13000

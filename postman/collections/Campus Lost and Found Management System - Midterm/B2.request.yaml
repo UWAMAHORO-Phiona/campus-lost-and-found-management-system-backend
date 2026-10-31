@@ -1,0 +1,7 @@
+$kind: http-request
+description: Find item reports by status
+url: "{{baseUrl}}/api/item-reports/by-status?status=OPEN"
+method: GET
+queryParams:
+  status: OPEN
+order: 3000

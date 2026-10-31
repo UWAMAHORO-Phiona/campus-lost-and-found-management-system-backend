@@ -1,0 +1,5 @@
+$kind: http-request
+description: Delete return receipt
+url: "{{baseUrl}}/api/return-receipts/delete/{{returnReceiptId}}"
+method: DELETE
+order: 15000

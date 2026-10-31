@@ -1,0 +1,7 @@
+$kind: http-request
+description: Change item report status
+url: "{{baseUrl}}/api/item-reports/{{itemReportId}}/status?status=MATCHED"
+method: PATCH
+queryParams:
+  status: MATCHED
+order: 10000

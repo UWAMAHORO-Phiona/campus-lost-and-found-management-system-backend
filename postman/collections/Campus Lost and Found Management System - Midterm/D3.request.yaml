@@ -1,0 +1,5 @@
+$kind: http-request
+description: Add item category to custodian
+url: "{{baseUrl}}/api/custodians/{{custodianId}}/item-categories/{{itemCategoryId}}"
+method: PUT
+order: 11000

@@ -1,4 +1,3 @@
-
 package campus_lost_and_found_management_system.controller;
 
 import campus_lost_and_found_management_system.entity.Reporter;
@@ -82,21 +81,28 @@ public class ReporterController {
             return ResponseEntity.ok(message);
         }
     }
+
     @GetMapping("/by-last-name")
     public ResponseEntity<List<Reporter>> findByLastName(
-        @RequestParam String lastName) {
+            @RequestParam String lastName) {
 
-            return ResponseEntity.ok(
+        return ResponseEntity.ok(
                 reporterService.findByLastName(lastName)
-            );
-    
-        }
-        @GetMapping("/by-custodian/{custodianId}")
-public ResponseEntity<List<Reporter>> findReportersByCustodian(
-        @PathVariable UUID custodianId) {
-
-    return ResponseEntity.ok(
-            reporterService.findReportersByCustodian(custodianId)
-    );
-}
+        );
     }
+
+    @GetMapping("/of-custodian/{custodianId}")
+    public ResponseEntity<?> findReportersByCustodian(
+            @PathVariable UUID custodianId) {
+
+        List<Reporter> reporters =
+                reporterService.findReportersByCustodian(custodianId);
+
+        if (reporters == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("The custodian with that id does not exist");
+        }
+
+        return ResponseEntity.ok(reporters);
+    }
+}

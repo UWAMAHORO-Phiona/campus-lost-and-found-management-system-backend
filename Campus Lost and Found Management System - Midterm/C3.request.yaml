@@ -1,0 +1,5 @@
+$kind: http-request
+description: Find unused item categories
+url: "{{baseUrl}}/api/item-categories/unused"
+method: GET
+order: 7000

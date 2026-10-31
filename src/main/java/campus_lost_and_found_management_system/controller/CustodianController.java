@@ -118,10 +118,11 @@ public class CustodianController {
         }
     }
 
-    @GetMapping("/by-category")
-    public ResponseEntity<List<Custodian>> findByCategory(
-            @RequestParam String categoryName) {
+   // C1: Find custodians by item category
+@GetMapping("/by-item-category")
+public ResponseEntity<List<Custodian>> findByCategory(
+        @RequestParam String name) {
 
-        return ResponseEntity.ok(custodianService.findByCategory(categoryName));
-    }
+    return ResponseEntity.ok(custodianService.findByCategory(name));
+}
 }

@@ -1,0 +1,9 @@
+$kind: http-request
+description: Get paginated item reports (bonus)
+url: "{{baseUrl}}/api/item-reports/page?page=0&size=5&sort=reportDate,desc"
+method: GET
+queryParams:
+  page: "0"
+  size: "5"
+  sort: reportDate,desc
+order: 19000

@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.UUID;
@@ -46,4 +48,12 @@ public interface ItemReportRepository extends JpaRepository<ItemReport, UUID> {
             @Param("newStatus") ItemReportStatus newStatus,
             @Param("excludedStatus") ItemReportStatus excludedStatus
     );
+
+    // Dashboard: Count reports created on a specific date
+long countByReportDate(LocalDate reportDate);
+
+// Dashboard: Count reports by status
+long countByStatus(ItemReportStatus status);
+
+Page<ItemReport> findAll(Pageable pageable);
 }

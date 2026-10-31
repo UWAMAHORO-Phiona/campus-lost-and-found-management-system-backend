@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface PostRepository extends JpaRepository<Post, UUID> {
 
     // C2: Find posts that have no custodian
-    @Query("SELECT p FROM Post p WHERE NOT EXISTS (SELECT c FROM Custodian c WHERE c.post = p)")
+   @Query("SELECT p FROM Post p WHERE NOT EXISTS (SELECT c FROM Custodian c WHERE c.post = p) ORDER BY p.postNumber ASC")
     List<Post> findFreePosts();
 
     // D4: Find a post using its post number

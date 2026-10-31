@@ -15,4 +15,7 @@ public interface ReporterRepository extends JpaRepository<Reporter, UUID> {
 
 @Query("SELECT DISTINCT ir.reporter FROM ItemReport ir WHERE ir.custodian.id = :custodianId")
 List<Reporter> findReportersByCustodian(@Param("custodianId") UUID custodianId);
+
+long countBy();
 }
+

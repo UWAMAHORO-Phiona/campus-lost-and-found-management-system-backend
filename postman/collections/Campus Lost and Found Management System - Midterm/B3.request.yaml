@@ -1,0 +1,8 @@
+$kind: http-request
+description: Find item reports between dates
+url: "{{baseUrl}}/api/item-reports/between?start=2026-10-01&end=2026-10-31"
+method: GET
+queryParams:
+  start: 2026-10-01
+  end: 2026-10-31
+order: 4000

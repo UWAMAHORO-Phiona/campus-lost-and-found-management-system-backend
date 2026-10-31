@@ -7,6 +7,10 @@ import campus_lost_and_found_management_system.service.ItemReportService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,8 +50,31 @@ public class ItemReportController {
 
     // Get an item report by ID
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<ItemReport>> findById(@PathVariable UUID id) {
-        return ResponseEntity.ok(itemReportService.findById(id));
+    public ResponseEntity<?> findById(@PathVariable UUID id) {
+
+        Optional<ItemReport> report = itemReportService.findById(id);
+
+        if (report.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("The item report with that id does not exist");
+        } else {
+            return ResponseEntity.ok(report.get());
+        }
+    }
+
+    // A2: Update an item report
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> update(
+            @PathVariable UUID id,
+            @RequestBody ItemReport itemReport) {
+
+        String message = itemReportService.update(id, itemReport);
+
+        if (message.equals("The item report with that id does not exist")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+        } else {
+            return ResponseEntity.ok(message);
+        }
     }
 
     // Delete an item report
@@ -99,7 +126,8 @@ public class ItemReportController {
         return ResponseEntity.ok(
                 itemReportService.findByDateBetween(start, end));
     }
-      // F1: Get the number of item reports grouped by status
+
+    // F1: Get item report counts grouped by status
     @GetMapping("/stats/by-status")
     public ResponseEntity<List<Object[]>> countItemReportsByStatus() {
         return ResponseEntity.ok(
@@ -117,4 +145,26 @@ public class ItemReportController {
 
         return ResponseEntity.ok(message);
     }
+
+
+    
+    // Bonus: Get item reports page by page
+@GetMapping("/page")
+public Page<ItemReport> getItemReportsPage(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "5") int size,
+        @RequestParam(defaultValue = "reportDate,desc") String sort) {
+
+    String[] sortDetails = sort.split(",");
+    String sortField = sortDetails[0];
+    Sort.Direction direction = Sort.Direction.fromString(sortDetails[1]);
+
+    Pageable pageable = PageRequest.of(
+            page,
+            size,
+            Sort.by(direction, sortField)
+    );
+
+    return itemReportService.findAll(pageable);
+}
 }

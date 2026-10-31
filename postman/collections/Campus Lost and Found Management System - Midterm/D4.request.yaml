@@ -1,0 +1,7 @@
+$kind: http-request
+description: Move custodian to another post
+url: "{{baseUrl}}/api/custodians/{{custodianId}}/post?postNumber=4"
+method: PATCH
+queryParams:
+  postNumber: "4"
+order: 12000

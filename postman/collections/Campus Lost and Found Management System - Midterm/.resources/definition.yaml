@@ -1,0 +1,11 @@
+$kind: collection
+description: AUCA Web Technology midterm API requests. Set baseUrl to http://localhost:8080 and replace placeholder IDs/campusId with values from your database before sending.
+variables:
+  baseUrl: http://localhost:8080
+  reporterId: REPLACE_WITH_REPORTER_UUID
+  custodianId: REPLACE_WITH_CUSTODIAN_UUID
+  itemCategoryId: REPLACE_WITH_ITEM_CATEGORY_UUID
+  itemReportId: REPLACE_WITH_ITEM_REPORT_UUID
+  returnedItemReportId: REPLACE_WITH_RETURNED_ITEM_REPORT_UUID
+  returnReceiptId: REPLACE_WITH_RETURN_RECEIPT_UUID
+  campusId: 24-0456

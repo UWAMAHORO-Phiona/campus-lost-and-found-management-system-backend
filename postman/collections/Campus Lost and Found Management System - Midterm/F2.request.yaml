@@ -1,0 +1,8 @@
+$kind: http-request
+description: Cancel custodian reports for a date
+url: "{{baseUrl}}/api/item-reports/cancel-day?custodianId={{custodianId}}&date=2026-10-20"
+method: PATCH
+queryParams:
+  custodianId: "{{custodianId}}"
+  date: 2026-10-20
+order: 17000

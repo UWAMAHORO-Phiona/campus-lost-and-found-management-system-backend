@@ -1,0 +1,22 @@
+$kind: http-request
+description: Create an item report (A2 CRUD example)
+url: "{{baseUrl}}/api/item-reports/save"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "reportDate": "2026-11-01",
+      "status": "OPEN",
+      "itemName": "Test item",
+      "location": "Library",
+      "reporter": {
+        "id": "{{reporterId}}"
+      },
+      "custodian": {
+        "id": "{{custodianId}}"
+      }
+    }
+order: 1000

@@ -18,14 +18,14 @@ The Campus Lost and Found Management System is a backend application designed to
 
 ## Database
 
-- Database name: `campus_lostandfound`
+- Database name: `campus_lost_and_found`
 - Database: PostgreSQL
 - Port: `5432`
 
 ## How to Run the Project
 
 1. Install Java 17 and PostgreSQL.
-2. Create a PostgreSQL database named `campus_lostandfound`.
+2. Create a PostgreSQL database named `campus_lost_and_found`.
 3. Open the project folder in VS Code.
 4. Check the database username and password in `application.properties`.
 5. Open the terminal in the project folder.
@@ -50,6 +50,8 @@ The Campus Lost and Found Management System is a backend application designed to
 - Manage return receipts.
 - View item report statistics by status.
 - Cancel reports for a custodian on a specific date.
+- View a dashboard summary of the system.
+- Retrieve item reports using pagination and sorting.
 
 ## API Testing
 

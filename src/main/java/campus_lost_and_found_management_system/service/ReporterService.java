@@ -1,8 +1,8 @@
-
 package campus_lost_and_found_management_system.service;
 
 import campus_lost_and_found_management_system.entity.Reporter;
 import campus_lost_and_found_management_system.repository.ReporterRepository;
+import campus_lost_and_found_management_system.repository.CustodianRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,9 +13,13 @@ import java.util.UUID;
 public class ReporterService {
 
     private final ReporterRepository reporterRepository;
+    private final CustodianRepository custodianRepository;
 
-    public ReporterService(ReporterRepository reporterRepository) {
+    public ReporterService(
+            ReporterRepository reporterRepository,
+            CustodianRepository custodianRepository) {
         this.reporterRepository = reporterRepository;
+        this.custodianRepository = custodianRepository;
     }
 
     public Reporter save(Reporter reporter) {
@@ -35,12 +39,19 @@ public class ReporterService {
             reporterRepository.deleteById(id);
             return "Reporter deleted successfully";
         }
+
         return "The reporter with that id does not exist";
     }
+
     public List<Reporter> findByLastName(String lastName) {
         return reporterRepository.findByLastNameIgnoreCaseOrderByFirstNameAsc(lastName);
     }
+
     public List<Reporter> findReportersByCustodian(UUID custodianId) {
-    return reporterRepository.findReportersByCustodian(custodianId);
-}
+        if (!custodianRepository.existsById(custodianId)) {
+            return null;
+        }
+
+        return reporterRepository.findReportersByCustodian(custodianId);
+    }
 }

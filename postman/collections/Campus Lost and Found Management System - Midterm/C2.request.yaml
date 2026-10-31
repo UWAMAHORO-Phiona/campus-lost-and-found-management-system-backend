@@ -1,0 +1,5 @@
+$kind: http-request
+description: Find free posts
+url: "{{baseUrl}}/api/posts/free"
+method: GET
+order: 6000

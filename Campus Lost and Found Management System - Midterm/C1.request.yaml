@@ -1,0 +1,5 @@
+$kind: http-request
+description: Find custodians by item category
+url: "{{baseUrl}}/api/custodians/by-item-category?name=elec"
+method: GET
+order: 5000

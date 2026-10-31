@@ -1,0 +1,5 @@
+$kind: http-request
+description: Get return receipt history by reporter
+url: "{{baseUrl}}/api/return-receipts/reporter/{{campusId}}"
+method: GET
+order: 14000

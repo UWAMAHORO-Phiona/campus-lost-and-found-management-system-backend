@@ -1,0 +1,13 @@
+# Use this workspace to collaborate
+workspace:
+  id: dc9c9c4f-2b82-460b-83d9-84c086800228
+
+# Each entry here maps a local resource to one or more corresponding objects in Postman Cloud
+
+cloudResources:
+  collections:
+    ../postman/collections/Campus Lost and Found Management System - Midterm: f9cee489-69ec-4df5-9210-6b953c94b0a2
+
+localResources:
+  collections:
+    - ../Campus Lost and Found Management System - Midterm

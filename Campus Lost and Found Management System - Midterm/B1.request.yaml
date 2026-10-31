@@ -1,0 +1,5 @@
+$kind: http-request
+description: Find reporters by last name
+url: "{{baseUrl}}/api/reporters/by-last-name?lastName=umutoni"
+method: GET
+order: 2000

@@ -5,8 +5,11 @@ import campus_lost_and_found_management_system.entity.ItemReport;
 import campus_lost_and_found_management_system.entity.ItemReportStatus;
 import campus_lost_and_found_management_system.repository.ItemReportRepository;
 import campus_lost_and_found_management_system.repository.ReturnReceiptRepository;
+
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,12 +49,38 @@ public class ItemReportService {
         return "Item report saved successfully";
     }
 
+    // Get all item reports
     public List<ItemReport> findAll() {
         return itemReportRepository.findAll();
     }
 
+    // Get an item report by ID
     public Optional<ItemReport> findById(UUID id) {
         return itemReportRepository.findById(id);
+    }
+
+    // A2: Update an item report without changing its status
+    public String update(UUID id, ItemReport updatedReport) {
+
+        Optional<ItemReport> optionalReport =
+                itemReportRepository.findById(id);
+
+        if (optionalReport.isEmpty()) {
+            return "The item report with that id does not exist";
+        }
+
+        ItemReport existingReport = optionalReport.get();
+
+        existingReport.setReportDate(updatedReport.getReportDate());
+        existingReport.setItemName(updatedReport.getItemName());
+        existingReport.setLocation(updatedReport.getLocation());
+        existingReport.setReporter(updatedReport.getReporter());
+        existingReport.setCustodian(updatedReport.getCustodian());
+
+        // Keep the original status
+        itemReportRepository.save(existingReport);
+
+        return "Item report updated successfully";
     }
 
     // Delete an item report only when it has no return receipts
@@ -66,6 +95,7 @@ public class ItemReportService {
         }
 
         itemReportRepository.deleteById(id);
+
         return "Item report deleted successfully";
     }
 
@@ -82,14 +112,11 @@ public class ItemReportService {
                 .findByReportDateBetweenOrderByReportDateAsc(startDate, endDate);
     }
 
-    public ItemReport update(ItemReport itemReport) {
-        return itemReportRepository.save(itemReport);
-    }
-
     // D2: Update item report status
     public String updateStatus(UUID id, ItemReportStatus newStatus) {
 
-        Optional<ItemReport> optionalReport = itemReportRepository.findById(id);
+        Optional<ItemReport> optionalReport =
+                itemReportRepository.findById(id);
 
         if (optionalReport.isEmpty()) {
             return "The item report with that id does not exist";
@@ -116,13 +143,16 @@ public class ItemReportService {
 
         return "Item report status updated successfully";
     }
-        // F1: Count item reports by status
+
+    // F1: Count item reports by status
     public List<Object[]> countItemReportsByStatus() {
         return itemReportRepository.countItemReportsByStatus();
     }
-        // F2: Cancel reports for a custodian on a specific date
+
+    // F2: Cancel reports for a custodian on a specific date
     @Transactional
-    public String cancelReportsForCustodianOnDate(UUID custodianId, LocalDate date) {
+    public String cancelReportsForCustodianOnDate(
+            UUID custodianId, LocalDate date) {
 
         int count = itemReportRepository.cancelReportsForCustodianOnDate(
                 custodianId,
@@ -133,4 +163,8 @@ public class ItemReportService {
 
         return count + " item reports cancelled";
     }
+    // Bonus: Get item reports page by page
+public Page<ItemReport> findAll(Pageable pageable) {
+    return itemReportRepository.findAll(pageable);
+}
 }
